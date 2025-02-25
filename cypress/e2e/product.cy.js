@@ -43,4 +43,50 @@ describe('Inventory Test Suite', () => {
     cy.get('[data-test="shopping-cart-badge"]').should('not.exist');
     cy.get('#continue-shopping').click();
   });
+/*
+  //works only when product's names and prices are known and wont change
+  it('should filter products and check their order', () => {
+    cy.get('[data-test="product-sort-container"]').select('az');
+    cy.get('[data-test="inventory-item-name"]').first().should('have.text', 'Sauce Labs Backpack');
+    cy.get('[data-test="inventory-item-name"]').last().should('have.text', 'Test.allTheThings() T-Shirt (Red)');
+    cy.get('[data-test="product-sort-container"]').select('za');
+    cy.get('[data-test="inventory-item-name"]').first().should('have.text', 'Test.allTheThings() T-Shirt (Red)');
+    cy.get('[data-test="inventory-item-name"]').last().should('have.text', 'Sauce Labs Backpack');
+    cy.get('[data-test="product-sort-container"]').select('lohi');
+    cy.get('[data-test="inventory-item-price"]').first().should('have.text', '$7.99');
+    cy.get('[data-test="inventory-item-price"]').last().should('have.text', '$49.99');
+    cy.get('[data-test="product-sort-container"]').select('hilo');
+    cy.get('[data-test="inventory-item-price"]').first().should('have.text', '$49.99');
+    cy.get('[data-test="inventory-item-price"]').last().should('have.text', '$7.99');
+  });
+*/
+
+  //works even if product's names and prices change 
+  it('should filter products and check their order', () => {
+    //sorting names A-Z
+    cy.get('[data-test="product-sort-container"]').select('az');
+    cy.get('[data-test="inventory-item-name"]').then(($products) => {
+      const names = $products.toArray().map(el => el.innerText);
+      expect(names).to.deep.equal([...names].sort());
+    });
+    //sorting names Z-A
+    cy.get('[data-test="product-sort-container"]').select('za');
+    cy.get('[data-test="inventory-item-name"]').then(($products) => {
+      const names = $products.toArray().map(el => el.innerText);
+      expect(names).to.deep.equal([...names].sort().reverse());
+    });
+    //sorting prices low to high
+    cy.get('[data-test="product-sort-container"]').select('lohi');
+    cy.get('[data-test="inventory-item-price"]').then(($prices) => {
+      const price = $prices.toArray().map(el => parseFloat(el.innerText.replace('$', '')));
+      expect(price).to.deep.equal([...price].sort((a, b) => a - b));
+    });
+    //sorting prices high to low
+    cy.get('[data-test="product-sort-container"]').select('hilo');
+    cy.get('[data-test="inventory-item-price"]').then(($prices) => {
+      const price = $prices.toArray().map(el => parseFloat(el.innerText.replace('$', '')));
+      expect(price).to.deep.equal([...price].sort((a, b) => b - a));
+    });
+  });
+  
 });
