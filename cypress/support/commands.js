@@ -11,3 +11,9 @@ Cypress.Commands.add('loginWithRole', (role) => {
     cy.get('#login-button').click();
   });
 })
+
+Cypress.Commands.add('addProduct', () => {
+  cy.get('#add-to-cart-sauce-labs-backpack').click();
+  cy.get('#add-to-cart-sauce-labs-backpack').should('not.exist');
+  cy.get('[data-test="shopping-cart-badge"]').should('have.text','1');
+})

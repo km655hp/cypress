@@ -16,12 +16,10 @@ describe('Inventory Test Suite', () => {
   });
 
   it('should add and remove product successfully from product list page', () => {
-    cy.get('#add-to-cart-sauce-labs-backpack').click();
-    cy.get('#add-to-cart-sauce-labs-backpack').should('not.exist');
-    cy.get('[data-test="shopping-cart-badge"]').should('have.text','1')
+    cy.addProduct();
     cy.get('#remove-sauce-labs-backpack').click();
     cy.get('#remove-sauce-labs-backpack').should('not.exist');
-    cy.get('[data-test="shopping-cart-badge"]').should('not.exist')
+    cy.get('[data-test="shopping-cart-badge"]').should('not.exist');
   });
 
   it('should add and remove product successfully from product detail page', () => {
@@ -29,18 +27,16 @@ describe('Inventory Test Suite', () => {
     cy.url().should('include', '/inventory-item');
     cy.get('#add-to-cart').click();
     cy.get('#add-to-cart').should('not.exist');
-    cy.get('[data-test="shopping-cart-badge"]').should('have.text','1')
+    cy.get('[data-test="shopping-cart-badge"]').should('have.text','1');
     cy.get('#remove').click();
     cy.get('#remove').should('not.exist');
-    cy.get('[data-test="shopping-cart-badge"]').should('not.exist')
+    cy.get('[data-test="shopping-cart-badge"]').should('not.exist');
     cy.get('#back-to-products').click();
     cy.url().should('include', '/inventory');
   });
 
   it('should add and remove product successfully from my cart page', () => {
-    cy.get('#add-to-cart-sauce-labs-backpack').click();
-    cy.get('#add-to-cart-sauce-labs-backpack').should('not.exist');
-    cy.get('[data-test="shopping-cart-badge"]').should('have.text','1')
+    cy.addProduct();
     cy.get('[data-test="shopping-cart-link"]').click();
     cy.get('#remove-sauce-labs-backpack').click();
     cy.get('#remove-sauce-labs-backpack').should('not.exist');
