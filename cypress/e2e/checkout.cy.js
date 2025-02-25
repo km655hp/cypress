@@ -67,4 +67,21 @@ describe('Inventory Test Suite', () => {
     cy.url().should('include', '/inventory');
   });
 
+  it('should do checkout with multiple items successfully', () => {
+    cy.addMultipleProducts('3');
+    cy.get('[data-test="shopping-cart-link"]').click();
+    cy.get('#checkout').click();
+    cy.url().should('include', '/checkout-step-one');
+    cy.get('#first-name').should('be.visible').type('Pirate');
+    cy.get('#last-name').should('be.visible').type('Software');
+    cy.get('#postal-code').should('be.visible').type('12345');
+    cy.get('#continue').click();
+    cy.url().should('include', '/checkout-step-two');
+    //TBD check total prize
+    cy.get('#finish').click();
+    cy.url().should('include', '/checkout-complete');
+    cy.get('#back-to-products').click();
+    cy.url().should('include', '/inventory');
+  });
+
 });
