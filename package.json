@@ -4,5 +4,8 @@
   },
   "scripts": {
     "cy:open": "cypress open"
+  },
+  "dependencies": {
+    "cypress-plugin-api": "^2.11.2"
   }
 }
